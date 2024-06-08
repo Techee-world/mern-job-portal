@@ -1,4 +1,3 @@
-// src/redux/actions/authActions.js
 import axios from "axios";
 
 export const register = (userData) => async (dispatch) => {
@@ -32,7 +31,8 @@ export const login = (userData) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: "LOGIN_FAIL",
-      payload: err.response.data,
+      payload: err.response.data.message,
     });
+    throw new Error(err.response.data.message); // Ensure the error is thrown for the component to catch
   }
 };
