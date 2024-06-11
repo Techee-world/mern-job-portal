@@ -4,7 +4,7 @@ import bannerPic from '../../assets/banner-pic.png'
 const Banner = () => {
   return (
     <div>
-      <div class="flex flex-col justify-center h-screen py-12">
+      <div class="flex flex-col justify-center h-[80vh] py-6">
         <div class="self-center  items-center flex flex-col sm:flex-row w-full md:w-5/6 xl:w-2/3 px-4 sm:px-0">
           <div class="w-full text-center sm:text-left sm:w-1/2 py-12 sm:px-8">
             <h1 class="text-purple-600 text-2xl mb-6">

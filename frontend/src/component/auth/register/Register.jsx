@@ -1,12 +1,12 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Link , useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { register } from "../../../redux/authActions";
+import { register } from "../../../redux/actions/authActions";
 
 const Register = () => {
-  const [registerError , setRegisterError] = useState('');
-  const [repeatPassword , setRepeatPassword] = useState()
+  const [registerError, setRegisterError] = useState("");
+  const [repeatPassword, setRepeatPassword] = useState();
   const [registerForm, setRegisterForm] = useState({
     firstName: "",
     lastName: "",
@@ -18,29 +18,28 @@ const Register = () => {
   const dispatch = useDispatch();
   const inputDataHandle = (e) =>
     setRegisterForm({ ...registerForm, [e.target.name]: e.target.value });
-//  const inputDataHandle = (e) => {
-//    const { name, value } = e.target;
-//    setRegisterForm({
-//      ...registerFrom,
-//      [name]: value,
-//    });
-//  };
-  const formSubmitHandle  = async (e) => {
+  //  const inputDataHandle = (e) => {
+  //    const { name, value } = e.target;
+  //    setRegisterForm({
+  //      ...registerFrom,
+  //      [name]: value,
+  //    });
+  //  };
+  const formSubmitHandle = async (e) => {
     e.preventDefault();
-   
-      if (repeatPassword === registerForm.password) {
-        try {
-          dispatch(register(registerForm));
-          navigate("/login");
-        } catch (err) {
-          console.error(err.message);
-          setRegisterError(err.message);
 
-        }
-      } else {
-                   setRegisterError("Password is not match");
+    if (repeatPassword === registerForm.password) {
+      try {
+        dispatch(register(registerForm));
+        navigate("/login");
+      } catch (err) {
+        console.error(err.message);
+        setRegisterError(err.message);
       }
-  }
+    } else {
+      setRegisterError("Password is not match");
+    }
+  };
   return (
     <div>
       <section className="relative py-20 md:py-28 2xl:py-40 bg-gray-800 overflow-hidden ">
@@ -252,15 +251,15 @@ const Register = () => {
                     <button
                       type="submit"
                       className="py-2 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-full transition duration-200"
-                      >
+                    >
                       Get started
                     </button>
                   </form>
-                      {registerError && (
-                        <div className="text-red-300 text-center my-2">
-                          {registerError}
-                        </div>
-                      )}
+                  {registerError && (
+                    <div className="text-red-300 text-center my-2">
+                      {registerError}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

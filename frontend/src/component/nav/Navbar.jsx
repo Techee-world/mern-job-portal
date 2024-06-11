@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <div className="absolute top-0 left-0 z-[9] w-full px-6 md:px-10 py-6">
+    <div className=" w-full px-6 md:px-10 py-6">
       <div className="flex justify-between items-center">
         <Link to="/">
           <div>
@@ -14,9 +14,13 @@ const Navbar = () => {
           </div>
         </Link>
         <ul className="flex gap-2 md:gap-4 items-center font-semibold cursor-pointer ">
+          <Link to='/' >
           <li className="hover:offset-8 duration-500 hover:underline">Home</li>
+          </Link>
           <li className="hover:offset-8 duration-500 hover:underline">About</li>
+          <Link to='job-find' >
           <li className="hover:offset-8 duration-500 hover:underline">Job</li>
+          </Link>
           <li className="hover:offset-8 duration-500 hover:underline">Info</li>
         </ul>
         <div className="flex gap-4 items-center font-semibold cursor-pointer">
