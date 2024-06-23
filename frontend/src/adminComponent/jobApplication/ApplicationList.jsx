@@ -8,11 +8,12 @@ const ApplicationList = () => {
 
  const dispatch = useDispatch();
  const jobList = useSelector((state) => state.job);
+ const jobListData = jobList.jobList;
 
  useEffect(() => {
    dispatch(fetchJobListData());
  }, [dispatch]);
-    console.log(jobList ,'-----')
+
   return (
     <div>
       <section className="bg-gray-50 dark:bg-gray-900 h-screen p-3 sm:p-5">
@@ -274,20 +275,19 @@ const ApplicationList = () => {
                     </th>
                   </tr>
                 </thead>
-                  {/* {jobList.map((item) => ( */}
-                <tbody>
+                {jobListData.map((item) => (
+                  <tbody>
                     <tr className="border-b dark:border-gray-700 relative">
                       <th
                         scope="row"
                         className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                       >
-                        {/* {item.companyName} */}
-                        ppppppppppp
+                        {item.companyName}
                       </th>
-                      <td className="px-4 py-3">PC</td>
-                      <td className="px-4 py-3">Apple</td>
-                      <td className="px-4 py-3">300</td>
-                      <td className="px-4 py-3">$2999</td>
+                      <td className="px-4 py-3">{item.jobTitle}</td>
+                      <td className="px-4 py-3">{item.location}</td>
+                      <td className="px-4 py-3">{item.maxExperience}</td>
+                      <td className="px-4 py-3">{item.salaryRange}</td>
                       <td className="px-4 py-3 flex items-center justify-end">
                         <button
                           onClick={() => setIsActiveMore(!isActiveMore)}
@@ -300,7 +300,7 @@ const ApplicationList = () => {
                             className="w-5 h-5"
                             aria-hidden="true"
                             fill="currentColor"
-                            viewBox="0 0 20 20"
+                            viewBox="0 0 20 20" 
                             xmlns="http://www.w3.org/2000/svg"
                           >
                             <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
@@ -336,8 +336,8 @@ const ApplicationList = () => {
                         </div>
                       </td>
                     </tr>
-                </tbody>
-                  {/* ))} */}
+                  </tbody>
+                ))}
               </table>
             </div>
             <nav
@@ -448,3 +448,5 @@ const ApplicationList = () => {
 }
 
 export default ApplicationList
+
+

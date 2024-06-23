@@ -21,6 +21,9 @@ const Navbar = () => {
           <Link to='job-find' >
           <li className="hover:offset-8 duration-500 hover:underline">Job</li>
           </Link>
+          <Link to='job-favorite' >
+          <li className="hover:offset-8 duration-500 hover:underline">Favorite</li>
+          </Link>
           <li className="hover:offset-8 duration-500 hover:underline">Info</li>
         </ul>
         <div className="flex gap-4 items-center font-semibold cursor-pointer">

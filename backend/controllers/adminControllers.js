@@ -14,8 +14,7 @@ export const adminJobApplicationForm = async (req, res) => {
 
 export const adminJobApplicationList = async (req, res) => {
   try {
-    const listData = await jobApplication.find({});
-    console.log(listData,';;;;');
+    const listData = await AdminJobForm.find({});
     res.status(200).json(listData); // Sending the data as JSON response
   } catch (error) {
     console.error("Error fetching job applications:", error); // Log the error

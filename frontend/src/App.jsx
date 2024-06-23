@@ -10,6 +10,7 @@ import Admin from "./adminComponent/adminPage/Admin";
 import ApplicationForm from "./adminComponent/jobApplication/ApplicationForm";
 import AdminNavbar from "./adminComponent/adminNav/AdminNavbar";
 import ApplicationList from "./adminComponent/jobApplication/ApplicationList";
+import Favorite from "./component/favorite/Favorite";
 
 const App = () => {
   const { pathname } = useLocation();
@@ -28,6 +29,7 @@ const App = () => {
         <Route path="/admin" element={<Admin />} />
         <Route path="/application-form" element={<ApplicationForm />} />
         <Route path="/application-list" element={<ApplicationList />} />
+        <Route path="/job-favorite" element={<Favorite />} />
       </Routes>
     </div>
   );
