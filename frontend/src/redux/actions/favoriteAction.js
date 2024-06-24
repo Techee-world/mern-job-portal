@@ -3,6 +3,7 @@ import axios from "axios";
 const SET_WHITE = "SET_WHITE";
 const SET_BLACK = "SET_BLACK";
 const USER_ADD_TO_CART = "USER_ADD_TO_CART";
+const USER_DISPLAY_TO_CART = "USER_DISPLAY_TO_CART";
 const ADD_TO_CART_FAIL = "ADD_TO_CART_FAIL";
 
 export const setWhite = () => ({
@@ -35,6 +36,21 @@ export const setFavoriteData = (favoriteData) => async (dispatch) => {
     dispatch({
       type: ADD_TO_CART_FAIL,
       payload: err.response ? err.response.data : "Unknown error",
+    });
+  }
+};
+export const displayFavoriteData = () => async (dispatch) => {
+  try {
+    const res = await axios.get("http://localhost:5000/api/user/userFavorite");
+    dispatch({
+      type: USER_DISPLAY_TO_CART,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.error("Error fetching favorite data:", err.response);
+    dispatch({
+      type: ADD_TO_CART_FAIL,
+      payload: err.response?.data?.message || "Failed to fetch favorite data",
     });
   }
 };

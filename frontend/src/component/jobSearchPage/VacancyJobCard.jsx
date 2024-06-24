@@ -4,26 +4,36 @@ import { fetchJobListData } from "../../redux/actions/adminJobApplicationAction"
 import { setFavoriteData } from "../../redux/actions/favoriteAction";
 
 const VacancyJobCard = () => {
-  const [favorite, setFavorite] = useState("white");
-
   const dispatch = useDispatch();
+
   const jobCardData = useSelector((state) => state.job);
+  const favoriteDataCart = useSelector(
+    (state) => state.userFavoriteDataList.displayFavoriteData
+  );
   const jobListHomeData = jobCardData.jobList || [];
+
+  // Initialize the favorite state based on the fetched favorite data
+  const initialFavorites = {};
+  jobListHomeData.forEach((job, index) => {
+    initialFavorites[index] = favoriteDataCart.some(
+      (fav) => fav.name === job.companyName && fav.title === job.jobTitle && fav.location === job.location && fav.salary === job.salary
+    );
+  });
+  const [favorites, setFavorites] = useState(initialFavorites);
 
   useEffect(() => {
     dispatch(fetchJobListData());
   }, [dispatch]);
 
-  const favoriteClickHandle = (title, name, location, type, salary) => {
+  const favoriteClickHandle = (title, name, location, type, salary, index) => {
     const sendFavoriteData = { title, name, location, type, salary };
-    console.log(sendFavoriteData);
-
-    if (favorite === "white") {
+    if (!favorites[index]) {
       dispatch(setFavoriteData(sendFavoriteData));
-      setFavorite("black");
-    } else {
-      setFavorite("white");
     }
+    setFavorites((prevFavorites) => ({
+      ...prevFavorites,
+      [index]: !prevFavorites[index],
+    }));
   };
 
   return (
@@ -31,11 +41,11 @@ const VacancyJobCard = () => {
       <div className="border w-1/3 lg:hidden px-4 py-1 rounded-full mb-4 font-bold shadow-md hover:bg-blue-200 duration-700 cursor-pointer">
         sort filter
       </div>
-
       {jobListHomeData.map((item, index) => {
         const jobTypeKeys = Object.keys(item.jobType).filter(
           (key) => item.jobType[key] === true
         );
+        const isFavorite = favorites[index];
 
         return (
           <div key={index} className="border w-full p-4 mb-4 shadow-md">
@@ -53,7 +63,8 @@ const VacancyJobCard = () => {
                     item.companyName,
                     item.location,
                     jobTypeKeys,
-                    item.salaryRange
+                    item.salaryRange,
+                    index
                   )
                 }
               >
@@ -76,7 +87,7 @@ const VacancyJobCard = () => {
                       transform="scale(8,8)"
                       d="M25,5v23l-1.59375,-1.1875l-7.40625,-5.5625l-7.40625,5.5625l-1.59375,1.1875v-23z"
                       id="strokeMainSVG"
-                      fill={favorite}
+                      fill={isFavorite ? "black" : "white"}
                       stroke="#1015e7"
                       strokeLinejoin="round"
                     ></path>
@@ -101,7 +112,7 @@ const VacancyJobCard = () => {
               <div>
                 <h1 className="font-bold">{item.jobTitle}</h1>
                 <h1 className="font-medium">{item.companyName}</h1>
-                <h4 className="  text-sm  rounded-sm">{item.location}</h4>
+                <h4 className="text-sm rounded-sm">{item.location}</h4>
                 <div className="flex mt-2 items-center gap-4">
                   {jobTypeKeys.map((key) => (
                     <h4

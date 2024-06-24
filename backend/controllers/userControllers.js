@@ -3,7 +3,7 @@ import FavoriteData from "../modules/Favorite.js";
 export const addToFavoriteData = async (req, res) => {
   try {
     const favoriteTotalData = req.body;
-    console.log(favoriteTotalData, "/////");
+
 
     // Validate the request body
     const { title, name, location, type, salary } = favoriteTotalData;
@@ -12,7 +12,6 @@ export const addToFavoriteData = async (req, res) => {
     }
 
     const addFavoriteToDatabase = new FavoriteData(favoriteTotalData);
-    console.log(addFavoriteToDatabase, "......");
     await addFavoriteToDatabase.save();
     res.status(200).json({ message: "Favorite added successfully" });
   } catch (error) {
@@ -20,3 +19,20 @@ export const addToFavoriteData = async (req, res) => {
     res.status(500).send("Failed to add favorite");
   }
 };
+
+export const giveFavoriteDataInDatabase = async (req, res) => {
+  try {
+    const displayFavoriteData = await FavoriteData.find({}); 
+    res.status(200).json(displayFavoriteData);
+  } catch (error) {
+    console.error("Error fetching job applications:", error);
+    res.status(500).json({ error: "An error favorite give data." });
+  }
+};
+// export const removeFavoriteDataInDatabase = async (req,res) =>{
+//   try {
+//     let 
+//   } catch (error) {
+    
+//   }
+// }
