@@ -3,19 +3,19 @@ const SET_WHITE = "SET_WHITE";
 const SET_BLACK = "SET_BLACK";
 const USER_ADD_TO_CART = "USER_ADD_TO_CART";
 const USER_DISPLAY_TO_CART = "USER_DISPLAY_TO_CART";
+const USER_REMOVE_FROM_CART = "USER_REMOVE_FROM_CART"; // New action type
 const ADD_TO_CART_FAIL = "ADD_TO_CART_FAIL";
 
-// Initial states
 const initialColorState = {
   color: "white",
 };
 
 const initialFavoriteState = {
-  favoriteDataList:[],
-  displayFavoriteData:[],
+  favoriteDataList: [],
+  displayFavoriteData: [],
 };
 
-// Color reducer
+
 export const colorReducer = (state = initialColorState, action) => {
   switch (action.type) {
     case SET_WHITE:
@@ -27,7 +27,7 @@ export const colorReducer = (state = initialColorState, action) => {
   }
 };
 
-// Favorite data reducer
+
 export const favoriteDataReducer = (state = initialFavoriteState, action) => {
   switch (action.type) {
     case USER_ADD_TO_CART:
@@ -39,6 +39,13 @@ export const favoriteDataReducer = (state = initialFavoriteState, action) => {
       return {
         ...state,
         displayFavoriteData: action.payload,
+      };
+    case USER_REMOVE_FROM_CART:
+      return {
+        ...state,
+        displayFavoriteData: state.favoriteDataList.filter(
+          (item) => item._id !== action.payload
+        ),
       };
     case ADD_TO_CART_FAIL:
       return {

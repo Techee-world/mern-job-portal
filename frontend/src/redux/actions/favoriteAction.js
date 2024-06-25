@@ -5,6 +5,7 @@ const SET_BLACK = "SET_BLACK";
 const USER_ADD_TO_CART = "USER_ADD_TO_CART";
 const USER_DISPLAY_TO_CART = "USER_DISPLAY_TO_CART";
 const ADD_TO_CART_FAIL = "ADD_TO_CART_FAIL";
+const USER_REMOVE_FROM_CART = "USER_REMOVE_FROM_CART"; // New action type
 
 export const setWhite = () => ({
   type: SET_WHITE,
@@ -16,7 +17,6 @@ export const setBlack = () => ({
 
 export const setFavoriteData = (favoriteData) => async (dispatch) => {
   try {
-    console.log("Sending favorite data:", favoriteData);
     const res = await axios.post(
       "http://localhost:5000/api/user/userFavorite",
       favoriteData,
@@ -26,19 +26,18 @@ export const setFavoriteData = (favoriteData) => async (dispatch) => {
         },
       }
     );
-    console.log("Response data:", res.data);
     dispatch({
       type: USER_ADD_TO_CART,
       payload: res.data,
     });
   } catch (err) {
-    console.error("Error response:", err.response);
     dispatch({
       type: ADD_TO_CART_FAIL,
       payload: err.response ? err.response.data : "Unknown error",
     });
   }
 };
+
 export const displayFavoriteData = () => async (dispatch) => {
   try {
     const res = await axios.get("http://localhost:5000/api/user/userFavorite");
@@ -47,10 +46,24 @@ export const displayFavoriteData = () => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    console.error("Error fetching favorite data:", err.response);
     dispatch({
       type: ADD_TO_CART_FAIL,
       payload: err.response?.data?.message || "Failed to fetch favorite data",
+    });
+  }
+};
+
+export const removeFavoriteData = (id) => async (dispatch) => {
+  try {
+    await axios.delete(`http://localhost:5000/api/user/userFavorite/${id}`);
+    dispatch({
+      type: USER_REMOVE_FROM_CART,
+      payload: id,
+    });
+  } catch (err) {
+    dispatch({
+      type: ADD_TO_CART_FAIL,
+      payload: err.response?.data?.message || "Failed to remove favorite data",
     });
   }
 };

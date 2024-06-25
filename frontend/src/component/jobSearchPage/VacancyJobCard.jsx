@@ -7,28 +7,33 @@ const VacancyJobCard = () => {
   const dispatch = useDispatch();
 
   const jobCardData = useSelector((state) => state.job);
-  const favoriteDataCart = useSelector(
-    (state) => state.userFavoriteDataList.displayFavoriteData
-  );
+  const favoriteDataCart = useSelector((state) => state.userFavoriteDataList);
   const jobListHomeData = jobCardData.jobList || [];
 
+console.log(jobCardData.jobList,'list')
+console.log(favoriteDataCart.displayFavoriteData, "2222");
+
   // Initialize the favorite state based on the fetched favorite data
-  const initialFavorites = {};
-  jobListHomeData.forEach((job, index) => {
-    initialFavorites[index] = favoriteDataCart.some(
-      (fav) => fav.name === job.companyName && fav.title === job.jobTitle && fav.location === job.location && fav.salary === job.salary
-    );
-  });
+  const initialFavorites = JSON.parse(localStorage.getItem("favorites")) || {};
+
   const [favorites, setFavorites] = useState(initialFavorites);
 
   useEffect(() => {
     dispatch(fetchJobListData());
   }, [dispatch]);
 
+  // Save favorites to local storage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }, [favorites]);
+
   const favoriteClickHandle = (title, name, location, type, salary, index) => {
     const sendFavoriteData = { title, name, location, type, salary };
     if (!favorites[index]) {
       dispatch(setFavoriteData(sendFavoriteData));
+    }else{
+      console.log('no');
+      //  dispatch(displayFavoriteData());
     }
     setFavorites((prevFavorites) => ({
       ...prevFavorites,
